@@ -85,7 +85,8 @@ public class PhoneDialerActivity extends Activity {
 		          break;
 		        case R.id.backspace:
 		        	String text = number.getText().toString();
-		        	number.setText(text.substring(0, text.length() - 1));
+		        	if (text.length() > 0)
+		        		number.setText(text.substring(0, text.length() - 1));
 			      break;
 			    default:
 			    	Button btn = (Button) findViewById(v.getId());
