@@ -8,8 +8,11 @@ import android.view.*;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
 public class PhoneDialerActivity extends Activity {
+	
+	public static final int CONTACTS_MANAGER_REQUEST_CODE = 1234;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +50,9 @@ public class PhoneDialerActivity extends Activity {
 		btn2 = (ImageButton) findViewById(R.id.hangup);
 		btn2.setOnClickListener(listener);
 		btn2 = (ImageButton) findViewById(R.id.backspace);
+		btn2.setOnClickListener(listener);
+		
+		btn2 = (ImageButton) findViewById(R.id.add);
 		btn2.setOnClickListener(listener);
 	}
 
@@ -88,6 +94,15 @@ public class PhoneDialerActivity extends Activity {
 		        	if (text.length() > 0)
 		        		number.setText(text.substring(0, text.length() - 1));
 			      break;
+		        case R.id.add:
+		        	if (number.getText().toString().length() > 0) {
+		        		Intent intent2 = new Intent("ro.pub.cs.systems.pdsd.lab04.contactsmanager.intent.action.ContactsManagerActivity");
+		        		intent2.putExtra("ro.pub.cs.systems.pdsd.lab04.contactsmanager.PHONE_NUMBER_KEY", number.getText().toString());
+		        		startActivityForResult(intent2, CONTACTS_MANAGER_REQUEST_CODE);
+		        	} else {
+		        		Toast.makeText(getApplication(), getResources().getString(R.string.phone_error), Toast.LENGTH_LONG).show();
+		        	}
+		        	break;
 			    default:
 			    	Button btn = (Button) findViewById(v.getId());
 			    	number.setText(number.getText().toString() + btn.getText().toString());
